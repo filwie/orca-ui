@@ -10,17 +10,16 @@ This repository contains the source code for the OpenRCA web interface.
 
 ### Build and run in Docker
 
-Build Docker image:
+To build and start `orca-ui`, `orca-proxy` and `orca-mock` containers
+simply run below commands:
 
-```bash
-$ docker build -t openrca/orca-ui .
+```sh
+cd ./utils
+docker-compose up
 ```
 
-Run Docker container:
-
-```
-$ docker run -it --name orca-ui -p 3000:3000 openrca/orca-ui
-```
+The UI is available at [http://localhost](http://localhost)
+(**IMPORTANT** using `127.0.0.1` will result in CORS violation warnings and inability to display the graph)
 
 ### Build and run locally
 
