@@ -3,6 +3,8 @@ import * as d3 from 'd3';
 import axios from 'axios';
 
 import { DateTimePicker } from './DateTimePicker';
+import './Graph.css';
+
 
 export class Graph extends React.Component {
   constructor(props){
@@ -24,7 +26,7 @@ export class Graph extends React.Component {
   }
 
   onDateTimeSelect(){
-    this.loadData(this.graphUpdate)
+    this.loadData(this.graphUpdate);
   }
 
   loadData(cb) {
@@ -70,13 +72,13 @@ export class Graph extends React.Component {
       .force('y', d3.forceY());
 
     const link = g.append('g')
-      .attr('stroke', '#999')
-      .attr('stroke-opacity', 1.0)
+      .attr('class', 'link')
       .selectAll('line')
       .data(links)
       .join('line');
 
     const node = g.append('g')
+      .attr('class', 'graph-node')
       .selectAll('circle')
       .data(simulation.nodes())
       .join('circle')
