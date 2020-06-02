@@ -6,6 +6,26 @@ import { DateTimePicker } from './DateTimePicker';
 import './Graph.css';
 
 
+const nodeCircleRadius = 15;
+
+function clearClicked() {
+  d3.selectAll('.clicked').classed('clicked', false);
+}
+
+function nodeMouseOver(node, nodeData) {
+  const radiusMultiplier = 1.5;
+  node.attr('r', nodeCircleRadius * radiusMultiplier);
+}
+
+function nodeMouseOut(node, nodeData) {
+  node.attr('r', nodeCircleRadius);
+}
+
+function nodeClick(node, nodeData) {
+  clearClicked();
+  node.classed('clicked', true);
+}
+
 export class Graph extends React.Component {
   constructor(props){
     super(props);
@@ -62,7 +82,6 @@ export class Graph extends React.Component {
 
     const links = response.data.links;
     const nodes = response.data.nodes;
-    const nodeRadius = 10;
 
     const simulation = d3.forceSimulation(d3.values(nodes))
       .force('center', d3.forceCenter(width / 2, height / 2))
@@ -84,11 +103,16 @@ export class Graph extends React.Component {
       .join('circle')
       .attr('id', d => `graph-node-${d.id}`)
       .attr('class', d => `graph-node ${d.kind}`)
-      .attr('r', nodeRadius)
+      .attr('r', nodeCircleRadius)
       .call(this.drag(simulation));
 
     node.append('title')
       .text((d) => {return d.id;});
+
+    node
+      .on('mouseover', d => nodeMouseOver(d3.select(`#graph-node-${d.id}`), d))
+      .on('mouseout', d => nodeMouseOut(d3.select(`#graph-node-${d.id}`), d))
+      .on('click', d => nodeClick(d3.select(`#graph-node-${d.id}`), d));
 
     this.setState({
       link: link,
