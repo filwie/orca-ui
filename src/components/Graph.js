@@ -38,7 +38,7 @@ export class Graph extends React.Component {
   }
 
   graphUpdate(response){
-    /* 
+    /*
       Graph Update Code
     */
   }
@@ -60,6 +60,7 @@ export class Graph extends React.Component {
 
     const links = response.data.links;
     const nodes = response.data.nodes;
+    const nodeRadius = 10;
 
     const simulation = d3.forceSimulation(d3.values(nodes))
       .force('center', d3.forceCenter(width / 2, height / 2))
@@ -76,15 +77,12 @@ export class Graph extends React.Component {
       .join('line');
 
     const node = g.append('g')
-      .attr('fill', '#fff')
-      .attr('stroke', '#000')
-      .attr('stroke-width', 1.5)
       .selectAll('circle')
       .data(simulation.nodes())
       .join('circle')
-      .attr('fill', d => d.kind === 'pod' ? '#3f33ff' : null)
-      .attr('fill', d => d.kind === 'service' ? '#68686f' : null)
-      .attr('r', 10)
+      .attr('id', d => `graph-node-${d.id}`)
+      .attr('class', d => `graph-node ${d.kind}`)
+      .attr('r', nodeRadius)
       .call(this.drag(simulation));
 
     node.append('title')
@@ -117,12 +115,12 @@ export class Graph extends React.Component {
       d.fx = d.x;
       d.fy = d.y;
     }
-  
+
     function dragged(d) {
       d.fx = d3.event.x;
       d.fy = d3.event.y;
     }
-  
+
     function dragended(d) {
       if(!d3.event.active) simulation.alphaTarget(0);
       d.fx = null;
