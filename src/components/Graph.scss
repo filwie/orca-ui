@@ -1,3 +1,4 @@
+@import "bootstrap";
 @import "_variables.scss";
 
 g.link {
@@ -18,3 +19,45 @@ $node-fill in $node-class-fill-map {
     }
 }
 
+.node-info-card {
+    width     : 23rem;
+    z-index   : $zindex-popover;
+    position  : relative;
+    visibility: hidden;
+    opacity   : 0.9;
+    transition: visibility opacity 500ms linear;
+    margin    : 2rem 0 0 2rem;
+}
+
+.node-info-card:hover {
+    opacity: 1;
+}
+
+.card-title {
+    text-transform: capitalize;
+}
+
+.node-info-text {
+    text-align: left;
+}
+
+button.close {
+    margin    : 1rem;
+    text-align: left;
+}
+
+svg {
+    position  : absolute;
+    top       : 0;
+    left      : 0;
+    padding-top: 66px;
+    z-index   : 0;
+}
+
+pre {
+    // line wrapping in json card (to avoid h-scrollbar)
+    white-space: pre-wrap;
+    white-space: -moz-pre-wrap;
+    white-space: -pre-wrap;
+    white-space: -o-pre-wrap;
+}

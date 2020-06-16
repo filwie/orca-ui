@@ -4,6 +4,7 @@ import axios from 'axios';
 
 import { DateTimePicker } from './DateTimePicker';
 import './Graph.scss';
+import { render } from 'react-dom';
 
 
 const nodeCircleRadius = 15;
@@ -21,13 +22,39 @@ function nodeMouseOut(node, nodeData) {
   node.attr('r', nodeCircleRadius);
 }
 
+function displayNodeDetails(nodeData) {
+  d3.select('.node-info-card').classed('visible', true);
+
+  const nodeInfoCardContent = (
+    <div>
+      <button type="button" className="close" aria-label="Close" onClick={hideNodeDetails}>
+        <span aria-hidden="true">&times;</span>
+      </button>
+      <div className="card-body">
+        <h5 className="card-title">{nodeData.kind.replace('_', ' ')}</h5>
+        <div className="card-text node-info-text">
+          <pre>{JSON.stringify(nodeData, null, 2)}</pre>
+        </div>
+      </div>
+    </div>
+  );
+
+  const nodeInfoCard = document.querySelector('.node-info-card');
+  return render(nodeInfoCardContent, nodeInfoCard);
+}
+
+function hideNodeDetails() {
+  d3.select('.node-info-card').classed('visible', false).attr('opacity', 0);
+}
+
 function nodeClick(node, nodeData) {
   clearClicked();
   node.classed('clicked', true);
+  displayNodeDetails(nodeData);
 }
 
 export class Graph extends React.Component {
-  constructor(props){
+  constructor(props) {
     super(props);
     this.state = {
       link: null,
@@ -41,11 +68,11 @@ export class Graph extends React.Component {
     this.ticked = this.ticked.bind(this);
   }
 
-  componentDidMount(){
+  componentDidMount() {
     this.loadData(this.generateGraph);
   }
 
-  onDateTimeSelect(){
+  onDateTimeSelect() {
     this.loadData(this.graphUpdate);
   }
 
@@ -59,7 +86,7 @@ export class Graph extends React.Component {
       });
   }
 
-  graphUpdate(response){
+  graphUpdate(response) {
     /*
       Graph Update Code
     */
@@ -107,7 +134,7 @@ export class Graph extends React.Component {
       .call(this.drag(simulation));
 
     node.append('title')
-      .text((d) => {return d.id;});
+      .text((d) => { return d.id; });
 
     node
       .on('mouseover', d => nodeMouseOver(d3.select(`#graph-node-${d.id}`), d))
@@ -125,19 +152,19 @@ export class Graph extends React.Component {
 
   ticked() {
     this.state.link
-      .attr('x1', function(d) { return d.source.x; })
-      .attr('y1', function(d) { return d.source.y; })
-      .attr('x2', function(d) { return d.target.x; })
-      .attr('y2', function(d) { return d.target.y; });
+      .attr('x1', function (d) { return d.source.x; })
+      .attr('y1', function (d) { return d.source.y; })
+      .attr('x2', function (d) { return d.target.x; })
+      .attr('y2', function (d) { return d.target.y; });
 
     this.state.node
-      .attr('cx', function(d) { return d.x; })
-      .attr('cy', function(d) { return d.y; });
+      .attr('cx', function (d) { return d.x; })
+      .attr('cy', function (d) { return d.y; });
   }
 
   drag(simulation) {
     function dragstarted(d) {
-      if(!d3.event.active) simulation.alphaTarget(0.3).restart();
+      if (!d3.event.active) simulation.alphaTarget(0.3).restart();
       d.fx = d.x;
       d.fy = d.y;
     }
@@ -148,7 +175,7 @@ export class Graph extends React.Component {
     }
 
     function dragended(d) {
-      if(!d3.event.active) simulation.alphaTarget(0);
+      if (!d3.event.active) simulation.alphaTarget(0);
       d.fx = null;
       d.fy = null;
     }
@@ -159,11 +186,13 @@ export class Graph extends React.Component {
       .on('end', dragended);
   }
 
-  render(){
-    return(
-      <div>
-        <div id="chart-area" />
-        <DateTimePicker onSelect={this.onDateTimeSelect}/>
+  render() {
+    return (
+      <div className="app">
+        <div id="chart-area">
+          <DateTimePicker onSelect={this.onDateTimeSelect} />
+          <div className="card node-info-card"></div>
+        </div>
       </div>
     );
   }

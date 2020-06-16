@@ -24,4 +24,5 @@ html {
     float: right;
     margin-right: 150px;
     margin-top: 5px;
+    height: calc(100vh - 112px);
 }
