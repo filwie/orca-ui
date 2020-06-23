@@ -190,8 +190,8 @@ export class Graph extends React.Component {
     return (
       <div className="app">
         <div id="chart-area">
-          <DateTimePicker onSelect={this.onDateTimeSelect} />
           <div className="card node-info-card"></div>
+          <DateTimePicker onSelect={this.onDateTimeSelect} />
         </div>
       </div>
     );

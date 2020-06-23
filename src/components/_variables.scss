@@ -1,11 +1,16 @@
+@import "bootstrap";
+
+$navbar-top-height   : 3rem;
+$navbar-bottom-height: 3rem;
+
+$margin-default: 1rem;
 
 $graph_link_stroke_default: #999;
 
-$graph_node_fill_default: #fff;
+$graph_node_fill_default  : #fff;
 $graph_node_stroke_default: #000;
 
-$node-class-fill-map: (
-    "alert": #cc241d,
+$node-class-fill-map: ("alert": #cc241d,
     "cluster": #3c3836,
     "config_map": #7c6f64,
     "daemon_set": #d65c0d,
@@ -21,4 +26,4 @@ $node-class-fill-map: (
     "service": #8f3f71,
     "stateful_set": #98971a,
     "storage_class": #b16286,
-    )
+)

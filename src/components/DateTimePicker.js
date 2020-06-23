@@ -1,10 +1,13 @@
 import React from 'react';
 import DatePicker from 'react-datepicker';
+import { Navbar } from 'react-bootstrap';
 
 import 'react-datepicker/dist/react-datepicker.css';
 
+import './DateTimePicker.scss';
+
 export class DateTimePicker extends React.Component {
-  constructor(props){
+  constructor(props) {
     super(props);
     this.state = {
       date: new Date()
@@ -12,7 +15,7 @@ export class DateTimePicker extends React.Component {
     this.handleDateChange = this.handleDateChange.bind(this);
   }
 
-  handleDateChange(date){
+  handleDateChange(date) {
     this.setState({
       date: date
     }, () => {
@@ -20,10 +23,10 @@ export class DateTimePicker extends React.Component {
     });
   }
 
-  render(){
-    return(
-      <div className="bottom-bar">
-        <div className="date-picker">
+  render() {
+    return (
+      <Navbar class="bottom-navbar" bg="dark" variant="dark" expand="lg" fixed="bottom" >
+        <div className="date-picker ml-auto">
           <DatePicker
             selected={this.state.date}
             onChange={this.handleDateChange}
@@ -33,7 +36,7 @@ export class DateTimePicker extends React.Component {
             maxDate={new Date()}
           />
         </div>
-      </div>
+      </Navbar>
     );
   }
 }

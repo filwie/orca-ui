@@ -1,4 +1,3 @@
-@import "bootstrap";
 @import "_variables.scss";
 
 g.link {
@@ -47,11 +46,11 @@ button.close {
 }
 
 svg {
-    position  : absolute;
-    top       : 0;
-    left      : 0;
-    padding-top: 66px;
-    z-index   : 0;
+    height  : calc(100vh);
+    position: absolute;
+    top     : 0;
+    left    : 0;
+    z-index : 0;
 }
 
 pre {
