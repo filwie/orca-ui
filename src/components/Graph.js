@@ -1,6 +1,7 @@
 import React from 'react';
 import * as d3 from 'd3';
 import axios from 'axios';
+import textures from 'textures';
 
 import { DateTimePicker } from './DateTimePicker';
 import './Graph.scss';
@@ -98,6 +99,13 @@ export class Graph extends React.Component {
       .style('width', '100%')
       .style('height', '100%');
 
+
+    const texture1 = textures
+      .lines()
+      .thicker();
+
+    svg.call(texture1);
+
     const width = svg.node().getBoundingClientRect().width;
     const height = svg.node().getBoundingClientRect().height;
 
@@ -128,6 +136,7 @@ export class Graph extends React.Component {
       .selectAll('circle')
       .data(simulation.nodes())
       .join('circle')
+      .style('fill', texture1.url())
       .attr('id', d => `graph-node-${d.id}`)
       .attr('class', d => `graph-node ${d.kind}`)
       .attr('r', nodeCircleRadius)
