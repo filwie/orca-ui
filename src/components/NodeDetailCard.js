@@ -7,7 +7,10 @@ export class NodeDetailCard extends React.Component {
     super(props);
     this.state = {
       nodeData: {
-        kind: ''
+        kind: '',
+        properties: {
+          name: ''
+        }
       },
       hidden: true
     };
@@ -16,7 +19,7 @@ export class NodeDetailCard extends React.Component {
   }
 
   updateNodeData(nodeData) {
-    this.setState({nodeData: nodeData});
+    this.setState({ nodeData: nodeData });
   }
 
   hide() {
@@ -34,9 +37,14 @@ export class NodeDetailCard extends React.Component {
           <span aria-hidden="true">&times;</span>
         </button>
         <div className="card-body">
-          <h5 className="card-title">{this.state.nodeData.kind.replace('_', ' ')}</h5>
+          <h4 className="card-title">{this.state.nodeData.kind.replace('_', ' ')}</h4>
+          <h5 className="card-subtitle">{this.state.nodeData.properties.name}</h5>
           <div className="card-text node-info-text">
-            <pre>{JSON.stringify(this.state.nodeData, null, 2)}</pre>
+            <pre>{JSON.stringify(this.state.nodeData.properties, function (k, v) {
+              if (k !== 'name') {
+                return v;
+              }
+            }, 2)}</pre>
           </div>
         </div>
       </div>
