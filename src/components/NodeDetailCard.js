@@ -2,6 +2,27 @@ import React from 'react';
 import './NodeDetailCard.scss';
 
 
+function NodeDetails(props) {
+  const nodeProperties = props.nodeProperties;
+
+  const result = JSON.stringify(nodeProperties, function (k, v) {
+    if (k !== 'name' && v !== '{}') {
+      return v;
+    }
+  }, 2);
+
+  if (result === '{}') {
+    return null;
+  }
+
+  return (
+    <div className="card-text node-info-text">
+      <pre>{result}</pre>
+    </div>
+  );
+}
+
+
 export class NodeDetailCard extends React.Component {
   constructor(props) {
     super(props);
@@ -39,13 +60,7 @@ export class NodeDetailCard extends React.Component {
         <div className="card-body mt-0 pt-0">
           <h4 className="card-title">{this.state.nodeData.kind.replace('_', ' ')}</h4>
           <h5 className="card-subtitle">{this.state.nodeData.properties.name}</h5>
-          <div className="card-text node-info-text">
-            <pre>{JSON.stringify(this.state.nodeData.properties, function (k, v) {
-              if (k !== 'name') {
-                return v;
-              }
-            }, 2)}</pre>
-          </div>
+          <NodeDetails nodeProperties={this.state.nodeData.properties} />
         </div>
       </div>
     );
